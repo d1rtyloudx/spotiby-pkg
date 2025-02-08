@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	Endpoint        string `yaml:"endpoint"`
+	Port            int    `yaml:"port"`
+	Host            string `yaml:"host"`
 	UseSSL          bool   `yaml:"use_ssl"`
 	AccessKeyID     string `yaml:"access_key_id"`
 	SecretAccessKey string `env:"MINIO_SECRET"`
@@ -15,7 +16,7 @@ type Config struct {
 
 func Connect(cfg *Config) (*minio.Client, error) {
 	client, err := minio.New(
-		cfg.Endpoint,
+		fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
 		&minio.Options{
 			Creds:  credentials.NewStaticV4(cfg.AccessKeyID, cfg.SecretAccessKey, ""),
 			Secure: cfg.UseSSL,
