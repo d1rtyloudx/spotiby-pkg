@@ -7,11 +7,11 @@ import (
 )
 
 type Config struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
-	DB       int
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `env:"REDIS_PASSWORD"`
+	DB       int    `yaml:"db"`
 }
 
 func Connect(cfg *Config) (*redis.Client, error) {
