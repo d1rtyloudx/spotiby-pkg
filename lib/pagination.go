@@ -1,6 +1,10 @@
 package lib
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/labstack/echo/v4"
+	"strconv"
+)
 
 type PaginationQuery struct {
 	Page  uint64 `json:"page"`
@@ -48,4 +52,28 @@ func NewPaginationResponse(totalCount uint64, limit uint64, currentPage uint64) 
 		TotalPages:  totalPages,
 		HasMore:     currentPage < totalPages,
 	}
+}
+
+func ExtractPageQueryParams(ctx echo.Context) (PaginationQuery, error) {
+	page, err := strconv.ParseUint(ctx.QueryParam("page"), 10, 64)
+	if err != nil {
+		return PaginationQuery{}, err
+	}
+
+	limit, err := strconv.ParseUint(ctx.QueryParam("limit"), 10, 64)
+	if err != nil {
+		return PaginationQuery{}, err
+	}
+
+	pageQuery := PaginationQuery{
+		Page:  page,
+		Limit: limit,
+	}
+
+	err = pageQuery.Validate()
+	if err != nil {
+		return PaginationQuery{}, err
+	}
+
+	return pageQuery, nil
 }
