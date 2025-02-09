@@ -3,6 +3,7 @@ package lib
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"math"
 	"strconv"
 )
 
@@ -30,21 +31,12 @@ func (p *PaginationQuery) GetOffset() uint64 {
 type PaginationResponse struct {
 	Limit       uint64 `json:"limit"`
 	CurrentPage uint64 `json:"current_page"`
-	TotalPages  uint64 `json:"total"`
+	TotalPages  uint64 `json:"total_pages"`
 	HasMore     bool   `json:"has_more"`
 }
 
 func NewPaginationResponse(totalCount uint64, limit uint64, currentPage uint64) PaginationResponse {
-	var totalPages uint64
-
-	total := totalCount / limit
-
-	remainder := total % limit
-	if remainder == 0 {
-		totalPages = total
-	} else {
-		totalPages = totalPages + 1
-	}
+	totalPages := uint64(math.Ceil(float64(totalCount) / float64(limit)))
 
 	return PaginationResponse{
 		Limit:       limit,
