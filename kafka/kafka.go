@@ -8,13 +8,13 @@ import (
 
 type Config struct {
 	Brokers []string `yaml:"brokers"`
-	GroupID string   `yaml:"groupID"`
+	GroupID string   `yaml:"group_id"`
 }
 
 type TopicConfig struct {
-	TopicName         string `yaml:"topicName"`
+	TopicName         string `yaml:"topic_name"`
 	Partitions        int    `yaml:"partitions"`
-	ReplicationFactor int    `yaml:"replicationFactor"`
+	ReplicationFactor int    `yaml:"replication_factor"`
 }
 
 func NewReader(kafkaURL []string, topic, groupID string) *kafka.Reader {
