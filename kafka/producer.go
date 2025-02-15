@@ -9,6 +9,12 @@ type Producer struct {
 	w *kafka.Writer
 }
 
+func NewProducer(brokers []string) *Producer {
+	return &Producer{
+		w: NewWriter(brokers),
+	}
+}
+
 func (p *Producer) PublishMessage(ctx context.Context, msgs ...kafka.Message) error {
 	return p.w.WriteMessages(ctx, msgs...)
 }
