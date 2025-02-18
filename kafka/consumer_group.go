@@ -16,6 +16,14 @@ type ConsumerGroup struct {
 
 type Worker func(ctx context.Context, r *kafka.Reader, wg *sync.WaitGroup, workerID int)
 
+func NewConsumerGroup(brokers []string, groupID string, log *zap.Logger) *ConsumerGroup {
+	return &ConsumerGroup{
+		brokers: brokers,
+		groupID: groupID,
+		log:     log,
+	}
+}
+
 func (c *ConsumerGroup) ConsumeTopic(
 	ctx context.Context,
 	topicGroup []string,
