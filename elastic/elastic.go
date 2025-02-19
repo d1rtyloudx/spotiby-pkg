@@ -9,9 +9,15 @@ import (
 type Config struct {
 	Addresses []string `json:"addresses"`
 	Username  string   `json:"username"`
-	Password  string   `json:"password"`
-	APIKey    string   `json:"api_key"`
+	Password  string   `env:"ELASTIC_PASSWORD"`
+	APIKey    string   `env:"ELASTIC_API_KEY"`
 	Header    http.Header
+}
+
+type IndexConfig struct {
+	Name  string `json:"name"`
+	Path  string `json:"path"`
+	Alias string `json:"alias"`
 }
 
 func Connect(cfg *Config) (*elasticsearch.Client, error) {
